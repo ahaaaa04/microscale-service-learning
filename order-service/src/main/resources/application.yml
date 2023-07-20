@@ -6,6 +6,14 @@ spring:
     username: root
     password: "123456789"
     driver-class-name: com.mysql.jdbc.Driver
+  application:
+    name: orederservice
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        cluster-name: BJ # 优先发现本地区
+        namespace: df360d70-4031-4f0e-be1c-a3983684dcc1
 mybatis:
   type-aliases-package: cn.itcast.user.pojo
   configuration:
@@ -15,3 +23,21 @@ logging:
     cn.itcast: debug
   pattern:
     dateformat: MM-dd HH:mm:ss:SSS
+
+# 注册到eureka上
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://127.0.0.1:10086/eureka
+
+# 修改负载均衡原则，由轮询改为随机（只针对这个服务）
+userservice:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.alibaba.cloud.nacos.ribbon.NacosRule # 负载均衡规则
+
+# ribbon默认为懒加载，修改成饥饿加载
+ribbon:
+  eager-load:
+    enabled: true
+    clients:
+      - userservice
