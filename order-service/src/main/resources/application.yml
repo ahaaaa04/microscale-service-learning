@@ -7,13 +7,15 @@ spring:
     password: "123456789"
     driver-class-name: com.mysql.jdbc.Driver
   application:
-    name: orederservice
+    name: orderservice
   cloud:
     nacos:
       server-addr: localhost:8848
       discovery:
-        cluster-name: BJ # 优先发现本地区
-        namespace: df360d70-4031-4f0e-be1c-a3983684dcc1
+        cluster-name: GZ # 优先发现本地区
+#        namespace: df360d70-4031-4f0e-be1c-a3983684dcc1
+
+
 mybatis:
   type-aliases-package: cn.itcast.user.pojo
   configuration:
@@ -23,6 +25,7 @@ logging:
     cn.itcast: debug
   pattern:
     dateformat: MM-dd HH:mm:ss:SSS
+
 
 # 注册到eureka上
 #eureka:
@@ -34,6 +37,15 @@ logging:
 userservice:
   ribbon:
     NFLoadBalancerRuleClassName: com.alibaba.cloud.nacos.ribbon.NacosRule # 负载均衡规则
+feign:
+  #  client:
+  #    config:
+  #      default:
+  #        loggerLevel: headers
+  httpclient:
+    enabled: true
+    max-connections: 200
+    max-connections-per-route: 50
 
 # ribbon默认为懒加载，修改成饥饿加载
 ribbon:
@@ -41,3 +53,4 @@ ribbon:
     enabled: true
     clients:
       - userservice
+
